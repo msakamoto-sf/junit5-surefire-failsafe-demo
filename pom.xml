@@ -1,0 +1,94 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>demo</groupId>
+  <artifactId>junit5-surefire-failsafe-demo</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>junit5-surefire-failsafe-demo</name>
+
+  <properties>
+    <!-- see : https://maven.apache.org/general.html#encoding-warning  -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version.source>11</java.version.source>
+    <java.version.target>11</java.version.target>
+    <java.compiler.debug>true</java.compiler.debug>
+
+    <junit5.version>5.4.2</junit5.version>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>${java.version.source}</source>
+          <target>${java.version.target}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <debug>${java.compiler.debug}</debug>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.0.0-M3</version>
+        <configuration>
+          <!--
+          see: https://junit.org/junit5/docs/current/user-guide/#writing-tests-tagging-and-filtering
+          see: https://junit.org/junit5/docs/current/user-guide/#running-tests-tag-expressions
+          see: https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven-filter-tags
+          see: https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html 
+          -->
+          <excludedGroups>tag2</excludedGroups>
+        </configuration>
+      </plugin>
+
+      <!--
+      see: https://maven.apache.org/surefire/maven-failsafe-plugin/usage.html
+      see: https://maven.apache.org/surefire/maven-failsafe-plugin/examples/junit-platform.html
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>3.0.0-M3</version>
+        <configuration>
+          <groups>tag2</groups>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>
