@@ -1,51 +1,23 @@
 # junit5-surefire-failsafe-demo
+
 JUnit5 and Maven Surefire, Failsafe plugin demo
-
-**I NEED HELP**
-
-## EXPECT (= I WANT TO DO)
 
 - run junit5 test cases except `@Tag("tag2")` tagged test cases in maven-surefire-plugin (`mvn test`)
 - run junit5 test cases only for `@Tag("tag2")` tagged test cases in maven-failsafe-plugin (`mvn integration-test` or `mvn verify`)
-
-## PROBLEM
-
-- **maven-failsafe-plugin does not run any tests.**
+  - with customizing failsafe's `<includes>` configuration for including `**/Test*.java` files.
 
 ```
 C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo>mvnw clean verify
-[INFO] Scanning for projects...
-[INFO]
-[INFO] -----------------< demo:junit5-surefire-failsafe-demo >-----------------
-[INFO] Building junit5-surefire-failsafe-demo 1.0-SNAPSHOT
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ junit5-surefire-failsafe-demo ---
-[INFO] Deleting C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo\target
-[INFO]
-[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ junit5-surefire-failsafe-demo ---
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo\src\main\resources
-[INFO]
-[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ junit5-surefire-failsafe-demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 1 source file to C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo\target\classes
-[INFO]
-[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ junit5-surefire-failsafe-demo ---
-[INFO] Using 'UTF-8' encoding to copy filtered resources.
-[INFO] skip non existing resourceDirectory C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo\src\test\resources
-[INFO]
-[INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ junit5-surefire-failsafe-demo ---
-[INFO] Changes detected - recompiling the module!
-[INFO] Compiling 2 source files to C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo\target\test-classes
-[INFO]
+
+(...)
+
 [INFO] --- maven-surefire-plugin:3.0.0-M3:test (default-test) @ junit5-surefire-failsafe-demo ---
 [INFO]
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running demo.TestDemo1
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 s - in demo.TestDemo1
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.028 s - in demo.TestDemo1
 [INFO]
 [INFO] Results:
 [INFO]
@@ -57,16 +29,28 @@ C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo>mvnw clean ver
 [INFO]
 [INFO] --- maven-failsafe-plugin:3.0.0-M3:integration-test (default) @ junit5-surefire-failsafe-demo ---
 [INFO]
-[INFO] --- maven-failsafe-plugin:3.0.0-M3:verify (default) @ junit5-surefire-failsafe-demo ---
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running demo.Demo4IT
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.023 s - in demo.Demo4IT
+[INFO] Running demo.TestDemo2
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.002 s - in demo.TestDemo2
+[INFO]
+[INFO] Results:
+[INFO]
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  7.694 s
-[INFO] Finished at: 2019-06-02T21:24:59+09:00
-[INFO] ------------------------------------------------------------------------
+
+(...)
 ```
 
-## MY ENVIRONMENT
+(Never run `Demo3IT` test case, because it is annotated as `@Tag("tag1")` and its filename does not match to surefire's target pattern.)
+
+## environment
 
 ```
 C:\work\SVNWORK\github\msakamoto-sf\junit5-surefire-failsafe-demo>mvnw -version
@@ -120,13 +104,18 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>3.0.0-M3</version>
         <configuration>
+          <includes>
+            <include>**/IT*.java</include>
+            <include>**/*IT.java</include>
+            <include>**/*ITCase.java</include>
+            <include>**/Test*.java</include>
+          </includes>
           <groups>tag2</groups>
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>integration-test</goal>
-              <goal>verify</goal>
             </goals>
           </execution>
         </executions>
