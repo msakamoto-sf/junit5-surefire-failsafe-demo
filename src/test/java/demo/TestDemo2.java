@@ -9,7 +9,7 @@ public class TestDemo2 {
     @Test
     @Tag("tag2")
     public void exampleTest() {
-        final Calc c = new Calc(3);
-        assertEquals(7, c.add(4));
+        final Calc c = new Calc(2);
+        assertEquals(5, c.add(3));
     }
 }

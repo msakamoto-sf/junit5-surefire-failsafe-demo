@@ -63,6 +63,8 @@
           see: https://junit.org/junit5/docs/current/user-guide/#running-tests-tag-expressions
           see: https://junit.org/junit5/docs/current/user-guide/#running-tests-build-maven-filter-tags
           see: https://maven.apache.org/surefire/maven-surefire-plugin/test-mojo.html 
+
+          run all test cases except @Tag("tag2") tagged test cases.
           -->
           <excludedGroups>tag2</excludedGroups>
         </configuration>
@@ -77,13 +79,29 @@
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>3.0.0-M3</version>
         <configuration>
+          <includes>
+            <!--
+            default target filename pattern, see: http://maven.apache.org/surefire/maven-failsafe-plugin/integration-test-mojo.html#includes
+            -->
+            <include>**/IT*.java</include>
+            <include>**/*IT.java</include>
+            <include>**/*ITCase.java</include>
+
+            <!--
+            add target filename pattern to run "TestDemo2.java" in maven-failsafe-plugin
+            see: http://maven.apache.org/surefire/maven-failsafe-plugin/examples/junit-platform.html
+            -->
+            <include>**/Test*.java</include>
+          </includes>
+
+          <!-- only run @Tag("tag2") test cases -->
           <groups>tag2</groups>
+
         </configuration>
         <executions>
           <execution>
             <goals>
               <goal>integration-test</goal>
-              <goal>verify</goal>
             </goals>
           </execution>
         </executions>

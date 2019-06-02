@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Tag;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestDemo1 {
+public class Demo4IT {
     @Test
-    @Tag("tag1")
-    public void test1() {
-        final Calc c = new Calc(1);
-        assertEquals(3, c.add(2));
+    @Tag("tag2")
+    public void exampleTest() {
+        final Calc c = new Calc(4);
+        assertEquals(9, c.add(5));
     }
 }
