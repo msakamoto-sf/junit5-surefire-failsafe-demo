@@ -1,3 +1,7 @@
+target/
+test-output/
+!.mvn/wrapper/maven-wrapper.jar
+
 # Compiled class file
 *.class
 
